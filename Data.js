@@ -1,3 +1,4 @@
+const fs = require('fs');
 const data = [
     [1, 0, 5, 45, "I"],
     [1, 1, 6, 0, "E"],
@@ -190,3 +191,4 @@ const data = [
     [11, 5, 15, 4, "E"],
     [12, 1, 15, 5, "I"]
 ];
+fs.writeFileSync('data.json', JSON.stringify(data, null, 2));

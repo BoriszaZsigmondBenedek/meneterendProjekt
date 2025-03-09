@@ -10,6 +10,7 @@ namespace meneterendProjekt
     {
         static void Main(string[] args)
         {
+            Megoldás m = new Megoldás("adat.json");
         }
     }
 }

@@ -17,6 +17,9 @@ namespace meneterendProjekt
             Console.Write("4. feladat\nAdja meg egy vonat azonosítóját! ");
             int bekertvonat = int.Parse(Console.ReadLine());
             Console.Write("Adjon meg egy időpontot (óra perc) !");
+            string bekertido = Console.ReadLine();
+            m.keses(bekertvonat);
+            
         }
     }
 }

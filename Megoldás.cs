@@ -24,24 +24,61 @@ namespace meneterendProjekt
         public int ÁllomásDb => (from x in menetrendek select x.Állomás).Distinct().Count();
         public int VonatokSzáma => (from x in menetrendek select x.ID).Distinct().Count();
 
-        public megálló leghosszabbMegálló => menetrendek.GroupBy(s => new { s.ID, s.Állomás }).Select(g =>
+        public megálló leghosszabbMegálló => menetrendek
+        .GroupBy(s => new { s.ID, s.Állomás })
+        .Select(g =>
         {
             var erk = g.FirstOrDefault(s => s.Irány == "E");
             var ind = g.FirstOrDefault(s => s.Irány == "I");
-            megálló stop;
 
             if (erk != null && ind != null)
             {
                 TimeSpan erkIdo = new TimeSpan(erk.Óra, erk.Perc, 0);
                 TimeSpan indIdo = new TimeSpan(ind.Óra, ind.Perc, 0);
-                stop.ID = g.Key.ID;
-                stop.Állomás = g.Key.Állomás;
-                stop.duration = indIdo - erkIdo;
 
-                return stop;
+                return new megálló
+                {
+                    ID = g.Key.ID,
+                    Állomás = g.Key.Állomás,
+                    duration = indIdo - erkIdo
+                };
             }
-            return 0;
-        }).Where(x => x != 0).OrderByDescending(x => x.duration);
+            return default(megálló);
+        })
+        .Where(x => x.duration != TimeSpan.Zero)
+        .OrderByDescending(x => x.duration)
+        .FirstOrDefault();
+
+        public void keses(int id)
+        {
+            var vonalmenete = menetrendek
+            .Where(r => r.ID == id)
+            .OrderBy(r => r.Óra)
+            .ThenBy(r => r.Perc)
+            .ToList();
+
+            var first = vonalmenete.First();
+            var last = vonalmenete.Last();
+
+            TimeSpan vonalhossz = new TimeSpan(last.Óra, last.Perc, 0) - new TimeSpan(first.Óra, first.Perc, 0);
+            TimeSpan tervezetthossz = new TimeSpan(2, 22, 0);
+
+            // Compare the duration
+            if (vonalhossz < tervezetthossz)
+            {
+                TimeSpan kulonbsseg = tervezetthossz - vonalhossz;
+                Console.WriteLine($"A(z) {id}. vonat útja {kulonbsseg}-el rövidebb volt az előírtnál.");
+            }
+            else if (vonalhossz > tervezetthossz)
+            {
+                TimeSpan kulonbseg = vonalhossz - tervezetthossz;
+                Console.WriteLine($"A(z) {id}. vonat útja {kulonbseg}-el hosszabb volt az előírtnál.");
+            }
+            else
+            {
+                Console.WriteLine($"A(z) {id}. vonat útja pontosan az előírt ideig tartott.");
+            }
+        }
 
 
 

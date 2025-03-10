@@ -11,6 +11,8 @@ namespace meneterendProjekt
         static void Main(string[] args)
         {
             Megoldás m = new Megoldás("adat.json");
+
+            Console.WriteLine($"2. feladat\nAz állomások száma: {m.ÁllomásDb}\nA vonatok száma: {m.VonatokSzáma}");
         }
     }
 }

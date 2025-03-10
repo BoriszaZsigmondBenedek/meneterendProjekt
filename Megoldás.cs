@@ -13,6 +13,11 @@ namespace meneterendProjekt
     {
         private List<Menetrend> menetrendek = new List<Menetrend>();
 
+        public int ÁllomásDb => (from x in menetrendek select x.Állomás).Distinct().Count();
+        public int VonatokSzáma => (from x in menetrendek select x.ID).Distinct().Count();
+
+
+
         public Megoldás(string állományNeve)
         {
             if (!File.Exists(állományNeve))

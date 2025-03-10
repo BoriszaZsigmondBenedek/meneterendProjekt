@@ -80,6 +80,24 @@ namespace meneterendProjekt
             }
         }
 
+        public void menetrendfajlba(int id)
+        {
+            var vonalmenete = menetrendek
+                .Where(r => r.ID == id && r.Irány == "É")
+                .OrderBy(r => r.Óra)
+                .ThenBy(r => r.Perc)
+                .ToList();
+
+            string fajlnev = $"halad{id}";
+            using (StreamWriter writer = new StreamWriter(fajlnev))
+            {
+                foreach (var record in vonalmenete)
+                {
+                    writer.WriteLine($"{record.Állomás}. állomás : {record.Óra}:{record.Perc}");
+                }
+            }
+        }
+
 
 
         public Megoldás(string állományNeve)

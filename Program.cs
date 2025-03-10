@@ -20,7 +20,7 @@ namespace meneterendProjekt
             string bekertido = Console.ReadLine();
             m.keses(bekertvonat);
             //m.menetrendfajlba(bekertvonat);
-
+            m.vonatokmenetkozben(bekertido);
             
         }
     }

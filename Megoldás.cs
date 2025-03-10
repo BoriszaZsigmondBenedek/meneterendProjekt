@@ -98,6 +98,46 @@ namespace meneterendProjekt
             }
         }
 
+        public void vonatokmenetkozben(string bekertadat)
+        {
+            string[] valami = bekertadat.Split(' ');
+            TimeSpan bekertido = new TimeSpan(int.Parse(valami[0]), int.Parse(valami[1]), 0);
+
+            var trainsInTransit = menetrendek
+                .OrderBy(r => r.Óra)
+                .ThenBy(r => r.Perc)
+                .GroupBy(r => r.ID)
+                .Select(g =>
+                {
+                    var trainEvents = g.Where(r => new TimeSpan(r.Óra, r.Perc, 0) <= bekertido).ToList();
+                    if (trainEvents.Count == 0) return null;
+
+                    var lastRecord = trainEvents.Last();
+                    bool reachedFinalStation = trainEvents.Count(e => e.Irány == "E") > 1 && lastRecord.Irány == "E";
+                    bool isWaiting = trainEvents.Count > 1 &&
+                                     lastRecord.Irány == "E" &&
+                                     !trainEvents.Any(e => e.Óra > lastRecord.Óra ||
+                                                           (e.Óra == lastRecord.Óra && e.Perc > lastRecord.Perc));
+
+                    return new
+                    {
+                        LineId = g.Key,
+                        LastStation = isWaiting ? $"{lastRecord.Állomás} állomáson áll" : $"{lastRecord.Állomás} állomás után megy",
+                        LastTime = $"{lastRecord.Óra}:{lastRecord.Perc}",
+                        InTransit = !reachedFinalStation
+                    };
+                })
+                .Where(t => t != null && t.InTransit)
+                .ToList();
+
+            Console.WriteLine("7. feladat");
+            foreach (var train in trainsInTransit)
+            {
+                Console.WriteLine($"A(z) {train.LineId}. vonat a {train.LastStation}");
+            }
+        }
+
+
 
 
         public Megoldás(string állományNeve)

@@ -19,7 +19,7 @@ namespace meneterendProjekt
             Console.Write("Adjon meg egy időpontot (óra perc) !");
             string bekertido = Console.ReadLine();
             m.keses(bekertvonat);
-            //m.menetrendfajlba(bekertvonat);
+            m.menetrendfajlba(bekertvonat);
             m.vonatokmenetkozben(bekertido);
             
         }

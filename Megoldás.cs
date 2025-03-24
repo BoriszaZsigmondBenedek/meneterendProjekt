@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 
+
+
 namespace meneterendProjekt
 {
     internal class Megoldás
@@ -140,23 +142,9 @@ namespace meneterendProjekt
 
 
 
-        public Megoldás(string állományNeve)
+        public Megoldás(string forrás)
         {
-            if (!File.Exists(állományNeve))
-            {
-                Console.WriteLine($"Error: File '{állományNeve}' not found.");
-                return;
-            }
-
-            string jsonContent = File.ReadAllText(állományNeve);
-
-            var rawData = JsonConvert.DeserializeObject<List<List<object>>>(jsonContent);
-
-            foreach (var sor in rawData)
-            {
-                string sorStr = string.Join(";", sor); 
-                menetrendek.Add(new Menetrend(sorStr)); 
-            }
+            menetrendek = Menetrend.ReadFromJson(forrás);
         }
 
     }

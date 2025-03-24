@@ -10,10 +10,11 @@ namespace meneterendProjekt
     {
         static void Main(string[] args)
         {
-            Megoldás m = new Megoldás("adat.json");
+            string forras = "adat.json";
+            Megoldás m = new Megoldás(forras);
 
-            Console.WriteLine($"2. feladat\nAz állomások száma: {m.ÁllomásDb}\nA vonatok száma: {m.VonatokSzáma}");
-            Console.WriteLine($"3. feladat\nA (z) {m.leghosszabbMegálló.ID}. vonat a (z) {m.leghosszabbMegálló.Állomás}. állomáson {m.leghosszabbMegálló.duration} (óra, perc)-et állt.");
+            Console.WriteLine($"2. feladat\nAz állomások száma: {m.ÁllomásDb}\nA vonatok száma: {m.VonatokSzáma}\n");
+            Console.WriteLine($"3. feladat\nA (z) {m.leghosszabbMegálló.ID}. vonat a (z) {m.leghosszabbMegálló.Állomás}. állomáson {m.leghosszabbMegálló.duration} (óra, perc)-et állt.\n");
             Console.Write("4. feladat\nAdja meg egy vonat azonosítóját! ");
             int bekertvonat = int.Parse(Console.ReadLine());
             Console.Write("Adjon meg egy időpontot (óra perc) !");

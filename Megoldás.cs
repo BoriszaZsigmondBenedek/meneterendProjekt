@@ -90,7 +90,7 @@ namespace meneterendProjekt
                 .ThenBy(r => r.Perc)
                 .ToList();
 
-            string fajlnev = $"halad{id}";
+            string fajlnev = $"halad{id}.txt";
             using (StreamWriter writer = new StreamWriter(fajlnev))
             {
                 foreach (var record in vonalmenete)
